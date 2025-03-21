@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页歌单</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #ff6b6b, #6b6bff);
+            min-height: 100vh;
+            color: #fff;
+            text-align: center;
+        }
+        .circle {
+            width: 200px; /* 圆形直径 */
+            height: 200px;
+            background-image: url('https://m.riyugo.cn/i/2025/03/21/w3p250.jpg'); /* 图片背景 */
+            background-size: cover; /* 图片覆盖 */
+            background-position: center; /* 图片居中 */
+            border-radius: 50%; /* 圆形效果 */
+            margin: 0 auto 20px; /* 居中并添加下方间距 */
+            border: 4px solid rgba(255, 255, 255, 0.3); /* 边框 */
+        }
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-family: 'KaiTi', cursive; /* 楷体 */
+            font-size: 36px;
+            font-weight: normal; /* 默认不加粗 */
+        }
+        h1 strong {
+            font-weight: bold; /* 数字部分加粗 */
+        }
+        .playlist {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .song {
+            padding: 10px;
+            font-size: 18px;
+            color: #fff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            user-select: none;
+            text-align: left; /* 歌名靠左对齐 */
+        }
+        .song:last-child {
+            border-bottom: none;
+        }
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 12px; /* 四个角变得更圆 */
+            background-color: #ffc0cb;
+            color: #333;
+            font-size: 16px;
+            outline: none;
+            margin-bottom: 10px; /* 搜索栏和按钮之间的间距 */
+        }
+        .search-box::placeholder {
+            color: #666;
+        }
+        .random-button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 12px; /* 四个角变得更圆 */
+            background-color: #ffc0cb;
+            color: #333;
+            font-size: 16px;
+            cursor: pointer;
+            outline: none;
+            margin-bottom: 20px; /* 按钮和歌单之间的间距 */
+        }
+        .random-button:hover {
+            background-color: #ffb6c1;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 居中的圆形 -->
+    <div class="circle"></div>
+
+    <!-- 标题 -->
+    <h1 id="title">
+        李星越Libra的<br />
+        <strong>0</strong>拿手歌
+    </h1>
+
+    <!-- 歌单 -->
+    <div class="playlist">
+        <!-- 搜索栏 -->
+        <input
+            type="text"
+            class="search-box"
+            placeholder="搜索歌曲..."
+            oninput="filterSongs()"
+            onfocus="this.placeholder = ''"
+            onblur="this.placeholder = '搜索歌曲...'"
+        />
+
+        <!-- 随机复制按钮 -->
+        <button class="random-button" onclick="copyRandomSong()">随便听听</button>
+
+        <!-- 歌单列表 -->
+        <div id="song-list">
+           <div class="song" onclick="copySongText(this.textContent)">
+    堕
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    骗
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    叹
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    坠
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    紫
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    阿刁
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    爱你
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    白鸽
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    不如
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    赤伶
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    宠坏
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    传奇
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    蠢货
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    大眠
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    大鱼
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    当真
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    稻香
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    放晴
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    孤城
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    过客
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    后来
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    会吗
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    嘉宾
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    尽头
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    靠近
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    离岸
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    沦陷
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    难渡
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    难却
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    年轮
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    暖暖
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    如愿
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    善变
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    生分
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    太迟
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    探窗
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    体面
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    天涯
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    舞女
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    像鱼
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    小宇
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    野花
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    勇气
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    雨爱
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    遇到
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    遇见
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    走马
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    百利甜
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    半壶纱
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    别错过
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    猜不透
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    春风吹
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    春庭雪
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    从前说
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    刀马旦
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    风筝误
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    广寒宫
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    广寒谣
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    红昭愿
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    后继者
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    黄梅戏
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    讲真的
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    九张机
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    离人殇
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    麻醉师
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    美人鱼
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    牛在飞
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    起风了
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    牵丝戏
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    扇子舞
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    沈园外
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    声声慢
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    谁不是
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    说说话
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    天黑了
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    万物生
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    我爱你
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    舞女泪
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    黑凤梨
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    要抱抱
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    游山恋
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    月亮船
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    月牙湾
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    云与海
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    爱的魔法
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    不再联系
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    匆匆那年
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    十年人间
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    等雾散去
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    飞云之下
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    感官先生
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    孤独颂歌
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    咕叽咕叽
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    光年之外
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    荷塘月色
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    呼吸决定
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    睫毛弯弯
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    蓝色灰色
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    浪子闲话
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    灵魂出窍
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    路过人间
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    梦醒时分
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    明天你好
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    漠河舞厅
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    你爱我坏
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    你的微笑
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    奢香夫人
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    失恋无罪
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    说散就散
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    西海情歌
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    小城夏天
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    星光派对
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    星月神话
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    战争世界
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    争什么争
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    自作多情
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    爱之初体验
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    彩虹的微笑
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    辞九门回忆
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    大叔不要跑
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    大雨还在下
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    东京不太热
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    回头才看开
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    九九八十一
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    可惜没如果
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    淋雨一直走
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    漫步人生路
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    我要找到你
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    五十年以后
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    小小的太阳
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    易燃易爆炸
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    一直很安静
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    有一种悲伤
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    月半小夜曲
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    至少还有你
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    阿拉斯加海湾
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    贝多芬的悲伤
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    别丢下我不管
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    不挽留没回头
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    不喜欢下雨天
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    化身孤岛的鲸
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    火红的萨日朗
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    流着泪说分手
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    爱江山更爱美人
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    爱要怎么说出口
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    白月光与朱砂痣
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    不为谁而作的歌
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    不要忘记我爱你
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    当想你成为习惯
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    多想留在你身边
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    挥着翅膀的女孩
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    来自天堂的魔鬼
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    满目星辰皆是你
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    你就不要想起我
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    漂洋过海来看你
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    这世界那么多人
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    给我一个理由忘记
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    好男人都死哪去了
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    可可托海的牧羊人
+</div>
+<div class="song" onclick="copySongText(this.textContent)">
+    被这个世界骗到想结婚
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取标题和歌曲列表
+        const title = document.getElementById('title');
+        const songList = document.getElementById('song-list');
+        const songs = songList.querySelectorAll('.song');
+
+        // 复制歌曲名
+        function copySongText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('已复制歌名到剪贴板：' + text);
+            }).catch((err) => {
+                alert('复制失败，请手动复制！');
+            });
+        }
+
+        // 更新标题
+        function updateTitle() {
+            const visibleSongs = document.querySelectorAll('.song:not(.hidden)').length;
+            title.innerHTML = `
+                李星越Libra的<br />
+                <strong>${visibleSongs}</strong>拿手歌
+            `;
+        }
+
+        // 筛选歌曲函数
+        function filterSongs() {
+            const searchBox = document.querySelector('.search-box');
+            const searchTerm = searchBox.value.toLowerCase();
+            const songs = document.querySelectorAll('.song');
+
+            songs.forEach((song) => {
+                const songText = song.textContent.toLowerCase();
+                if (songText.includes(searchTerm)) {
+                    song.classList.remove('hidden');
+                } else {
+                    song.classList.add('hidden');
+                }
+            });
+
+            // 更新标题
+            updateTitle();
+        }
+
+        // 随机复制一首歌函数
+        function copyRandomSong() {
+            const visibleSongs = document.querySelectorAll('.song:not(.hidden)');
+            if (visibleSongs.length === 0) {
+                alert('没有可选的歌曲！');
+                return;
+            }
+            const randomIndex = Math.floor(Math.random() * visibleSongs.length);
+            const randomSong = visibleSongs[randomIndex].textContent;
+
+            // 复制到剪贴板
+            copySongText(randomSong);
+        }
+
+        // 初始化时更新标题
+        updateTitle();
+    </script>
+</body>
+</html>
