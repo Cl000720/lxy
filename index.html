@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页歌单</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #ff6b6b, #6b6bff);
+            min-height: 100vh;
+            color: #fff;
+            text-align: center;
+        }
+        .circle {
+            width: 200px; /* 圆形直径 */
+            height: 200px;
+            background-image: url('https://m.riyugo.cn/i/2025/03/21/w3p250.jpg'); /* 图片背景 */
+            background-size: cover; /* 图片覆盖 */
+            background-position: center; /* 图片居中 */
+            border-radius: 50%; /* 圆形效果 */
+            margin: 0 auto 20px; /* 居中并添加下方间距 */
+            border: 4px solid rgba(255, 255, 255, 0.3); /* 边框 */
+        }
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-family: 'KaiTi', cursive; /* 楷体 */
+            font-size: 36px;
+            font-weight: normal; /* 默认不加粗 */
+        }
+        h1 strong {
+            font-weight: bold; /* 数字部分加粗 */
+        }
+        .playlist {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .song {
+            padding: 10px;
+            font-size: 18px;
+            color: #fff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            user-select: none;
+            text-align: left; /* 歌名靠左对齐 */
+        }
+        .song:last-child {
+            border-bottom: none;
+        }
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 12px; /* 四个角变得更圆 */
+            background-color: #ffc0cb;
+            color: #333;
+            font-size: 16px;
+            outline: none;
+            margin-bottom: 10px; /* 搜索栏和按钮之间的间距 */
+        }
+        .search-box::placeholder {
+            color: #666;
+        }
+        .random-button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 12px; /* 四个角变得更圆 */
+            background-color: #ffc0cb;
+            color: #333;
+            font-size: 16px;
+            cursor: pointer;
+            outline: none;
+            margin-bottom: 20px; /* 按钮和歌单之间的间距 */
+        }
+        .random-button:hover {
+            background-color: #ffb6c1;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 居中的圆形 -->
+    <div class="circle"></div>
+
+    <!-- 标题 -->
+    <h1 id="title">
+        李星越Libra的<br />
+        <strong>0</strong>拿手歌
+    </h1>
+
+    <!-- 歌单 -->
+    <div class="playlist">
+        <!-- 搜索栏 -->
+        <input
+            type="text"
+            class="search-box"
+            placeholder="搜索歌曲..."
+            oninput="filterSongs()"
+            onfocus="this.placeholder = ''"
+            onblur="this.placeholder = '搜索歌曲...'"
+        />
+
+        <!-- 随机复制按钮 -->
+        <button class="random-button" onclick="copyRandomSong()">随便听听</button>
+
+        <!-- 歌单列表 -->
+        <div id="song-list">
+            <div class="song" onclick="copySongText(this.textContent)">
+                晴天
+            </div>
+            <div class="song" onclick="copySongText(this.textContent)">
+                平凡之路
+            </div>
+            <div class="song" onclick="copySongText(this.textContent)">
+                夜曲
+            </div>
+            <div class="song" onclick="copySongText(this.textContent)">
+                告白气球
+            </div>
+            <div class="song" onclick="copySongText(this.textContent)">
+                起风了
+            </div>
+            <div class="song" onclick="copySongText(this.textContent)">
+                演员
+            </div>
+            <div class="song" onclick="copySongText(this.textContent)">
+                年少有为
+            </div>
+            <div class="song" onclick="copySongText(this.textContent)">
+                突然好想你
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取标题和歌曲列表
+        const title = document.getElementById('title');
+        const songList = document.getElementById('song-list');
+        const songs = songList.querySelectorAll('.song');
+
+        // 复制歌曲名
+        function copySongText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('已复制歌名到剪贴板：' + text);
+            }).catch((err) => {
+                alert('复制失败，请手动复制！');
+            });
+        }
+
+        // 更新标题
+        function updateTitle() {
+            const visibleSongs = document.querySelectorAll('.song:not(.hidden)').length;
+            title.innerHTML = `
+                李星越Libra的<br />
+                <strong>${visibleSongs}</strong>拿手歌
+            `;
+        }
+
+        // 筛选歌曲函数
+        function filterSongs() {
+            const searchBox = document.querySelector('.search-box');
+            const searchTerm = searchBox.value.toLowerCase();
+            const songs = document.querySelectorAll('.song');
+
+            songs.forEach((song) => {
+                const songText = song.textContent.toLowerCase();
+                if (songText.includes(searchTerm)) {
+                    song.classList.remove('hidden');
+                } else {
+                    song.classList.add('hidden');
+                }
+            });
+
+            // 更新标题
+            updateTitle();
+        }
+
+        // 随机复制一首歌函数
+        function copyRandomSong() {
+            const visibleSongs = document.querySelectorAll('.song:not(.hidden)');
+            if (visibleSongs.length === 0) {
+                alert('没有可选的歌曲！');
+                return;
+            }
+            const randomIndex = Math.floor(Math.random() * visibleSongs.length);
+            const randomSong = visibleSongs[randomIndex].textContent;
+
+            // 复制到剪贴板
+            copySongText(randomSong);
+        }
+
+        // 初始化时更新标题
+        updateTitle();
+    </script>
+</body>
+</html>
